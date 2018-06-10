@@ -1,0 +1,5 @@
+.DS_Store
+.document
+
+coverage
+spec/examples.txt
