@@ -1,4 +1,4 @@
-require_relative "../lib/bitmap_editor"
+require_relative "../../lib/bitmap_editor"
 
 RSpec.describe BitmapEditor do
   describe '#new' do
