@@ -13,9 +13,13 @@ class VerticalSegment < Command
 
   def run()
     if @y1 >= @y2
-      @state[@y2-1 .. @y1-1].each { |row| row[@x-1] = @colour }
+      (@y2-1 .. @y1-1).each do |y|
+        @state[y][@x-1] = @colour
+      end
     else
-      @state[@y1-1 .. @y2-1].each { |row| row[@x-1] = @colour}
+      (@y1-1 .. @y2-1).each do |y|
+        @state[y][@x-1] = @colour
+      end
     end
     @state
   end
