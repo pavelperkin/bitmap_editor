@@ -7,7 +7,7 @@ class Validator
     @errors = []
   end
 
-  def validate
+  def validate()
     @rules.each do |rule, value|
       unless @obj.public_send(rule) == value
         @errors << "Method #{rule} should return #{value}"
@@ -16,8 +16,12 @@ class Validator
     self
   end
 
-  def valid?
+  def valid?()
     validate
     @errors.none?
+  end
+
+  def valid_file?()
+    !@obj.nil? && File.exist?(@obj)
   end
 end

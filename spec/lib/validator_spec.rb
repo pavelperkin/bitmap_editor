@@ -203,4 +203,26 @@ RSpec.describe Validator do
       end
     end
   end
+
+  describe '#valid_file?' do
+    subject { Validator.new(obj: obj).valid_file? }
+    context 'valid file path passed' do
+      context 'object is an existing path' do
+        let(:obj) { './validator_spec' }
+        it { is_expected.to be_falsey}
+      end
+    end
+
+    context 'invalid file path passed' do
+      context 'object is an unexisting path' do
+        let(:obj) { 'some/path/to/some/file.yml' }
+        it { is_expected.to be_falsey}
+      end
+
+      context 'object is nil' do
+        let(:obj) { nil }
+        it { is_expected.to be_falsey}
+      end
+    end
+  end
 end
