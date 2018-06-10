@@ -1,0 +1,13 @@
+language: ruby
+sudo: required
+dist: precise
+group: edge
+rvm:
+  - 2.3.4
+script:
+  - "gem install bundler"
+  - "bundle install"
+  - "bin/rspec"
+cache:
+  bundler: true
+  apt: true
