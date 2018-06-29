@@ -1,0 +1,6 @@
+I: InitBitmap
+C: ClearBitmap
+L: PaintPixel
+V: VerticalSegment
+H: HorizontalSegment
+S: ShowBitmap

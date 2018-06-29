@@ -1,14 +1,14 @@
-require 'command'
-require 'validator'
+require_relative '../commands'
+require_relative '../validator'
 
-class InitBitmap < Command
+class Commands::InitBitmap
   attr_reader :state
 
-  def initialize(m: , n: )
-    @m = m.to_i
-    @n = n.to_i
+  def initialize(state: nil, args: [1, 1])
+    @m = args.first.to_i
+    @n = args.last.to_i
     validate!
-    @state = Array.new(@n, Array.new(@m, 'O'))
+    @state = Array.new(@n){ Array.new(@m, 'O') }
   end
 
   alias :run :state

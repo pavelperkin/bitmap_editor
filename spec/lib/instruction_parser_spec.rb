@@ -57,6 +57,7 @@ RSpec.describe InstructionParser do
   describe '#parse' do
     subject { InstructionParser.new(attrs).parse }
     let(:attrs) { { line: 'S' } }
-    it { is_expected.to be_kind_of Command }
+    it { is_expected.to be_instance_of Array }
+    its(:first) { is_expected.to eq Commands::ShowBitmap}
   end
 end

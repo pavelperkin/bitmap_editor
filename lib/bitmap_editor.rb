@@ -1,16 +1,14 @@
+require_relative 'instruction_parser'
+
 class BitmapEditor
 
   def run(file)
     return puts "please provide correct file" if file.nil? || !File.exists?(file)
-
+    bitmap = []
     File.open(file).each do |line|
-      line = line.chomp
-      case line
-      when 'S'
-          puts "There is no image"
-      else
-          puts 'unrecognised command :('
-      end
+      cmd, *attrs = InstructionParser.new(line: line.chomp).parse
+      bitmap = cmd.new(state: bitmap, args: attrs).run
     end
+    bitmap
   end
 end

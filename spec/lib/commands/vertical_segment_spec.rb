@@ -1,58 +1,51 @@
 require_relative "../../../lib/commands/vertical_segment"
 
-RSpec.describe VerticalSegment do
+RSpec.describe Commands::VerticalSegment do
   describe '#new' do
-    subject { VerticalSegment.new(state: state, x: x, y1: y1, y2: y2, colour: colour) }
+    subject { Commands::VerticalSegment.new(state: state, args: args) }
     let(:state) { [['O', 'O', 'O'], ['O', 'O', 'O'], ['O', 'O', 'O'], ['O', 'O', 'O']] }
     let(:x) { 3 }
     let(:y1) { 1 }
     let(:y2) { 3 }
     let(:colour) { 'A' }
+    let(:args) { [x, y1, y2, colour] }
 
-    it { is_expected.to be_instance_of(VerticalSegment) }
-    it { is_expected.to be_kind_of(Command) }
+    it { is_expected.to be_instance_of(Commands::VerticalSegment) }
 
     context 'valid attributes' do
       context 'x == 1' do
         let(:x) { 1 }
-        it { is_expected.to be_instance_of(VerticalSegment) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::VerticalSegment) }
       end
 
       context 'y1 == 1' do
         let(:y1) { 1 }
-        it { is_expected.to be_instance_of(VerticalSegment) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::VerticalSegment) }
       end
 
       context 'y2 == 1' do
         let(:y2) { 1 }
-        it { is_expected.to be_instance_of(VerticalSegment) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::VerticalSegment) }
       end
 
       context 'x == bitmap size' do
         let(:x) { 3 }
-        it { is_expected.to be_instance_of(VerticalSegment) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::VerticalSegment) }
       end
 
       context 'y1 == bitmap size' do
         let(:y1) { 4 }
-        it { is_expected.to be_instance_of(VerticalSegment) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::VerticalSegment) }
       end
 
       context 'y2 == bitmap size' do
         let(:y2) { 4 }
-        it { is_expected.to be_instance_of(VerticalSegment) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::VerticalSegment) }
       end
 
       context 'colour is one capital letter' do
         let(:colour) { 'K' }
-        it { is_expected.to be_instance_of(VerticalSegment) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::VerticalSegment) }
       end
     end
 
@@ -167,9 +160,10 @@ RSpec.describe VerticalSegment do
   end
 
   describe '#run' do
-    subject { VerticalSegment.new(state: state, x: x, y1: y1, y2: y2, colour: colour).run }
+    subject { Commands::VerticalSegment.new(state: state, args: args).run }
     let(:state) { [['O', 'O', 'O'], ['O', 'O', 'O'], ['O', 'O', 'O'], ['O', 'O', 'O']] }
     let(:colour) { 'A' }
+    let(:args) { [x, y1, y2, colour] }
 
     context 'left top corner' do
       let(:x) { 1 }

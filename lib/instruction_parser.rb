@@ -1,5 +1,7 @@
-require 'validator'
-require 'command'
+require 'yaml'
+require_relative 'validator'
+require_relative 'commands'
+Dir["./lib/commands/*.rb"].each { |file| require file }
 
 class InstructionParser
   def initialize(line: , dictionary: './lib/instructions.yml')
@@ -7,10 +9,12 @@ class InstructionParser
     @dictionary = dictionary.to_s
     validate_line!
     validate_dictionary!
+    @instructions = YAML.load_file(@dictionary)
   end
 
   def parse()
-    Command.new()
+    cmd_name, *attrs = @line.split
+    attrs.unshift(Commands.const_get(@instructions[cmd_name]))
   end
 
   private

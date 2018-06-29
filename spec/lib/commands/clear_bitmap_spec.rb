@@ -1,11 +1,10 @@
 require_relative "../../../lib/commands/clear_bitmap"
 
-RSpec.describe ClearBitmap do
+RSpec.describe Commands::ClearBitmap do
   describe '#new' do
-    subject { ClearBitmap.new(state: state) }
+    subject { Commands::ClearBitmap.new(state: state) }
     let(:state) { [] }
-    it { is_expected.to be_instance_of(ClearBitmap) }
-    it { is_expected.to be_kind_of(Command) }
+    it { is_expected.to be_instance_of(Commands::ClearBitmap) }
 
     context 'invalid state' do
       let(:state) { nil }
@@ -17,7 +16,7 @@ RSpec.describe ClearBitmap do
   end
 
   describe '#run' do
-    subject { ClearBitmap.new(state: state).run }
+    subject { Commands::ClearBitmap.new(state: state).run }
       let(:state) { [['A', 'B', 'C'],
                      ['D', 'E', 'F'],
                      ['X', 'Y', 'Z']]}

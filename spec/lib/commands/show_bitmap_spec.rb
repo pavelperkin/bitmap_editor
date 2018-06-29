@@ -1,11 +1,10 @@
 require_relative "../../../lib/commands/show_bitmap"
 
-RSpec.describe ShowBitmap do
+RSpec.describe Commands::ShowBitmap do
   describe '#new' do
-    subject { ShowBitmap.new(state: state) }
+    subject { Commands::ShowBitmap.new(state: state) }
     let(:state) { [] }
-    it { is_expected.to be_instance_of(ShowBitmap) }
-    it { is_expected.to be_kind_of(Command) }
+    it { is_expected.to be_instance_of(Commands::ShowBitmap) }
 
     context 'invalid state' do
       let(:state) { nil }
@@ -17,7 +16,7 @@ RSpec.describe ShowBitmap do
   end
 
   describe '#run' do
-    subject { ShowBitmap.new(state: state).run }
+    subject { Commands::ShowBitmap.new(state: state).run }
 
     context 'empty state' do
       let(:state) { [] }

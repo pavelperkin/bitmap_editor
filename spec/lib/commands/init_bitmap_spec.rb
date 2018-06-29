@@ -1,31 +1,29 @@
 require_relative "../../../lib/commands/init_bitmap"
 
-RSpec.describe InitBitmap do
+RSpec.describe Commands::InitBitmap do
   describe '#new' do
-    subject { InitBitmap.new(m: m, n: n) }
+    subject { Commands::InitBitmap.new(args: args) }
     let(:m) {3}
     let(:n) {4}
+    let(:args) { [m, n] }
 
     context 'valid params' do
       context 'm = 1 and n = 1' do
         let(:m) { 1 }
         let(:n) { 1 }
-        it { is_expected.to be_instance_of(InitBitmap) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::InitBitmap) }
       end
 
       context 'm = 250 and n = 250' do
         let(:m) { 250 }
         let(:n) { 250 }
-        it { is_expected.to be_instance_of(InitBitmap) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::InitBitmap) }
       end
 
       context 'm = 50 and n = 25' do
         let(:m) { 50 }
         let(:n) { 25 }
-        it { is_expected.to be_instance_of(InitBitmap) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::InitBitmap) }
       end
     end
 
@@ -129,9 +127,10 @@ RSpec.describe InitBitmap do
   end
 
   describe '#run' do
-    subject { InitBitmap.new(m: m, n: n).run }
+    subject { Commands::InitBitmap.new(args: args).run }
       let(:m) { 3 }
       let(:n) { 5 }
+      let(:args) { [m, n] }
 
       it { is_expected.to be_instance_of Array }
       it { is_expected.not_to be_empty }

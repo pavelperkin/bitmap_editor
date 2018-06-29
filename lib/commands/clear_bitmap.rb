@@ -1,10 +1,10 @@
-require 'command'
-require 'validator'
+require_relative '../commands'
+require_relative '../validator'
 
-class ClearBitmap < Command
+class Commands::ClearBitmap
   attr_reader :state
 
-  def initialize(state:)
+  def initialize(state:, args: nil)
     @state = state
     validate!
   end

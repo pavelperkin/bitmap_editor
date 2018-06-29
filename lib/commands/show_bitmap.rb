@@ -1,8 +1,8 @@
-require 'command'
-require 'validator'
+require_relative '../commands'
+require_relative '../validator'
 
-class ShowBitmap < Command
-  def initialize(state:)
+class Commands::ShowBitmap
+  def initialize(state:, args: nil)
     @state = state
     validate!
   end

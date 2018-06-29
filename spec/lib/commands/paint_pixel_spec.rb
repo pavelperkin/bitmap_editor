@@ -1,44 +1,39 @@
 require_relative "../../../lib/commands/paint_pixel"
 
-RSpec.describe PaintPixel do
+RSpec.describe Commands::PaintPixel do
   describe '#new' do
-    subject { PaintPixel.new(state: state, x: x, y: y, colour: colour) }
+    subject { Commands::PaintPixel.new(state: state, args: args) }
     let(:state) { [['O', 'O', 'O'], ['O', 'O', 'O'], ['O', 'O', 'O'], ['O', 'O', 'O']] }
     let(:x) { 3 }
     let(:y) { 4 }
     let(:colour) { 'A' }
-    it { is_expected.to be_instance_of(PaintPixel) }
-    it { is_expected.to be_kind_of(Command) }
+    let(:args) { [x, y, colour] }
+    it { is_expected.to be_instance_of(Commands::PaintPixel) }
 
     context 'valid attributes' do
       context 'x == 1' do
         let(:x) { 1 }
-        it { is_expected.to be_instance_of(PaintPixel) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::PaintPixel) }
       end
 
       context 'y == 1' do
         let(:y) { 1 }
-        it { is_expected.to be_instance_of(PaintPixel) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::PaintPixel) }
       end
 
       context 'x == bitmap size' do
         let(:x) { 3 }
-        it { is_expected.to be_instance_of(PaintPixel) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::PaintPixel) }
       end
 
       context 'y == bitmap size' do
         let(:y) { 4 }
-        it { is_expected.to be_instance_of(PaintPixel) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::PaintPixel) }
       end
 
       context 'colour is one capital letter' do
         let(:colour) { 'K' }
-        it { is_expected.to be_instance_of(PaintPixel) }
-        it { is_expected.to be_kind_of(Command) }
+        it { is_expected.to be_instance_of(Commands::PaintPixel) }
       end
     end
 
@@ -132,9 +127,10 @@ RSpec.describe PaintPixel do
   end
 
   describe '#run' do
-    subject { PaintPixel.new(state: state, x: x, y: y, colour: colour).run }
+    subject { Commands::PaintPixel.new(state: state, args: args).run }
     let(:state) { [['O', 'O', 'O'], ['O', 'O', 'O'], ['O', 'O', 'O'], ['O', 'O', 'O']] }
     let(:colour) { 'A' }
+    let(:args) { [x, y, colour] }
 
     context 'left top corner' do
       let(:x) { 1 }

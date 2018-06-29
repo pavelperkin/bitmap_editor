@@ -1,13 +1,13 @@
-require 'command'
-require 'validator'
+require_relative '../commands'
+require_relative '../validator'
 
-class HorizontalSegment < Command
-  def initialize(state: ,x1: ,x2: ,y: ,colour: )
+class Commands::HorizontalSegment
+  def initialize(state:, args: nil)
     @state = state.to_a
-    @x1 = x1.to_i
-    @x2 = x2.to_i
-    @y = y.to_i
-    @colour = colour.to_s
+    @x1 = args[0].to_i
+    @x2 = args[1].to_i
+    @y = args[2].to_i
+    @colour = args[3].to_s
     validate!
   end
 
