@@ -125,4 +125,46 @@ RSpec.describe Commands::FillRegion do
       end
     end
   end
+
+  describe '#run' do
+    subject { Commands::FillRegion.new(state: state, args: args).run }
+
+    let(:colour) { 'A' }
+    let(:args) { [x, y, colour] }
+
+    context 'new bitmap' do
+      let(:state) { [['O', 'O', 'O'], ['O', 'O', 'O'], ['O', 'O', 'O'], ['O', 'O', 'O']] }
+      let(:x) { 1 }
+      let(:y) { 1 }
+      it { is_expected.to match [['A', 'A', 'A'], ['A', 'A', 'A'], ['A', 'A', 'A'], ['A', 'A', 'A']] }
+    end
+
+    context 'with filled corners' do
+      let(:state) { [['Z', 'O', 'Z'], ['O', 'O', 'O'], ['O', 'O', 'O'], ['Z', 'O', 'Z']] }
+      let(:x) { 1 }
+      let(:y) { 1 }
+      it { is_expected.to match [['A', 'A', 'Z'], ['A', 'A', 'A'], ['A', 'A', 'A'], ['Z', 'A', 'Z']] }
+    end
+
+    context 'with filled corners#2' do
+      let(:state) { [['Z', 'O', 'Z'], ['O', 'O', 'O'], ['O', 'O', 'O'], ['Z', 'O', 'Z']] }
+      let(:x) { 1 }
+      let(:y) { 2 }
+      it { is_expected.to match [['Z', 'A', 'Z'], ['A', 'A', 'A'], ['A', 'A', 'A'], ['Z', 'A', 'Z']] }
+    end
+
+    context 'blocked' do
+      let(:state) { [['Z', 'O', 'Z'], ['O', 'Z', 'O'], ['O', 'O', 'O'], ['O', 'O', 'O']] }
+      let(:x) { 1 }
+      let(:y) { 2 }
+      it { is_expected.to match [['Z', 'A', 'Z'], ['O', 'Z', 'O'], ['O', 'O', 'O'], ['O', 'O', 'O']] }
+    end
+
+    context 'test example' do
+      let(:state) { [['O', 'O', 'Z', 'O', 'O'], ['O', 'O', 'Z', 'O', 'O'], ['O', 'O', 'Z', 'O', 'O']] }
+      let(:x) { 2 }
+      let(:y) { 2 }
+      it { is_expected.to match [['A', 'A', 'Z', 'O', 'O'], ['A', 'A', 'Z', 'O', 'O'], ['A', 'A', 'Z', 'O', 'O']] }
+    end
+  end
 end

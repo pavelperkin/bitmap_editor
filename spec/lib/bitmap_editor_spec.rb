@@ -60,6 +60,17 @@ RSpec.describe BitmapEditor do
         its('sample.size') { is_expected.to eq 5 }
         it { is_expected.to match expected_res}
       end
+
+      context 'with_region' do
+        let(:file_path) { 'spec/support/input_files/with_region.txt' }
+        let(:expected_res) { [['A','Z','A','A','A'], ['A','A','Z','A','A'], ['A','A','A','Z','A'], ['A','A','A','A','A']]}
+        it { is_expected.not_to be_empty }
+        it { is_expected.to be_instance_of Array }
+        its(:size) { is_expected.to eq 4 }
+        its(:sample) { is_expected.to be_instance_of Array }
+        its('sample.size') { is_expected.to eq 5 }
+        it { is_expected.to match expected_res}
+      end
     end
   end
 end
