@@ -37,15 +37,15 @@ class Commands::HorizontalSegment
                                                    'x1-m': @x1-m,
                                                    'x2-m': @x2-m,
                                                    'y-n': @y-n } )
-    raise ArgumentError.new(validation_results.messages) unless validation_results.success?
+    raise ArgumentError.new(validation_results.messages(full: true).values.join("\n")) unless validation_results.success?
   end
 
   def validation_schema
     Dry::Validation.Schema do
       required(:state, :array).filled
-      required(:x1, :int).value(gt?: 0)
-      required(:x2, :int).value(gt?: 0)
-      required(:y, :int).value(gt?: 0)
+      required(:x1, :integer).value(gt?: 0)
+      required(:x2, :integer).value(gt?: 0)
+      required(:y, :integer).value(gt?: 0)
       required(:'x1-m').value(lteq?: 0)
       required(:'x2-m').value(lteq?: 0)
       required(:'y-n').value(lteq?: 0)

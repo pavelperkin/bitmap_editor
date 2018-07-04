@@ -36,7 +36,7 @@ RSpec.describe BitmapEditor do
       context 'file starts not with Init' do
         let(:file_path) { 'spec/support/input_files/invalid_file.txt' }
         it 'raises ArgumentError' do
-          expect { subject }.to raise_error(ArgumentError)
+          expect { subject }.to raise_error(SystemExit)
         end
       end
 

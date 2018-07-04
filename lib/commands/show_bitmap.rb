@@ -15,7 +15,8 @@ class Commands::ShowBitmap
   private
 
   def validate!
-    raise ArgumentError unless validation_schema.call( { state: @state } ).success?
+    validation_results = validation_schema.call( { state: @state } )
+    raise ArgumentError.new(validation_results.messages(full: true).values.join("\n")) unless validation_results.success?
   end
 
   def validation_schema

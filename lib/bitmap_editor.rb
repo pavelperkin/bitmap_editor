@@ -10,5 +10,8 @@ class BitmapEditor
       bitmap = cmd.new(state: bitmap, args: attrs).run
     end
     bitmap
+  rescue ArgumentError => e
+    puts e.message
+    exit 1;
   end
 end
