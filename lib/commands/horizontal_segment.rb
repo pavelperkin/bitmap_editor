@@ -1,5 +1,5 @@
 require_relative '../commands'
-require_relative '../validator'
+require 'dry-validation'
 
 class Commands::HorizontalSegment
   def initialize(state:, args: nil)
@@ -27,17 +27,29 @@ class Commands::HorizontalSegment
   private
 
   def validate!
-    raise ArgumentError unless Validator.new(obj: @state, rules: { class: Array, empty?: false }).valid?
     n = @state.size
-    m = @state.first.size
-    raise ArgumentError unless Validator.new(obj: @y, rules: { integer?: true, positive?: true }).valid?
-    raise ArgumentError unless Validator.new(obj: @y-n, rules: { positive?: false }).valid?
-    raise ArgumentError unless Validator.new(obj: @x1, rules: { integer?: true, positive?: true }).valid?
-    raise ArgumentError unless Validator.new(obj: @x1-m, rules: { positive?: false }).valid?
-    raise ArgumentError unless Validator.new(obj: @x2, rules: { integer?: true, positive?: true }).valid?
-    raise ArgumentError unless Validator.new(obj: @x2-m, rules: { positive?: false }).valid?
-    raise ArgumentError unless Validator.new(obj: @colour, rules: { empty?: false }).valid?
-    raise ArgumentError unless Validator.new(obj: @colour.size - 1, rules: { zero?: true }).valid?
-    raise ArgumentError unless Validator.new(obj: @colour, rules: { capitalize: @colour }).valid?
+    m = @state.map(&:size).first.to_i
+    validation_results = validation_schema.call( { state: @state,
+                                                   x1: @x1,
+                                                   x2: @x2,
+                                                   y: @y,
+                                                   colour: @colour,
+                                                   'x1-m': @x1-m,
+                                                   'x2-m': @x2-m,
+                                                   'y-n': @y-n } )
+    raise ArgumentError.new(validation_results.messages) unless validation_results.success?
+  end
+
+  def validation_schema
+    Dry::Validation.Schema do
+      required(:state, :array).filled
+      required(:x1, :int).value(gt?: 0)
+      required(:x2, :int).value(gt?: 0)
+      required(:y, :int).value(gt?: 0)
+      required(:'x1-m').value(lteq?: 0)
+      required(:'x2-m').value(lteq?: 0)
+      required(:'y-n').value(lteq?: 0)
+      required(:colour, :string).value(format?: /^[A-Z]$/)
+    end
   end
 end

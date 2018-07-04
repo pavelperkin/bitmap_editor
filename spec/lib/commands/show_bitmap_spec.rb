@@ -6,12 +6,10 @@ RSpec.describe Commands::ShowBitmap do
     let(:state) { [] }
     it { is_expected.to be_instance_of(Commands::ShowBitmap) }
 
-    context 'invalid state' do
+    context 'nil state' do
       let(:state) { nil }
 
-      it 'raises an ArgumentError' do
-        expect { subject }.to raise_error(ArgumentError)
-      end
+      it { is_expected.to be_instance_of(Commands::ShowBitmap) }
     end
   end
 

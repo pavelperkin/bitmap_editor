@@ -1,9 +1,9 @@
 require_relative '../commands'
-require_relative '../validator'
+require 'dry-validation'
 
 class Commands::ShowBitmap
   def initialize(state:, args: nil)
-    @state = state
+    @state = state.to_a
     validate!
   end
 
@@ -15,6 +15,12 @@ class Commands::ShowBitmap
   private
 
   def validate!
-    raise ArgumentError unless Validator.new(obj: @state, rules: { class: Array }).valid?
+    raise ArgumentError unless validation_schema.call( { state: @state } ).success?
+  end
+
+  def validation_schema
+    Dry::Validation.Schema do
+      required(:state, :array)
+    end
   end
 end

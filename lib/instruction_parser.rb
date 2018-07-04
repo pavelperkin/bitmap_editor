@@ -1,5 +1,4 @@
 require 'yaml'
-require_relative 'validator'
 require_relative 'commands'
 Dir["./lib/commands/*.rb"].each { |file| require file }
 
@@ -7,8 +6,7 @@ class InstructionParser
   def initialize(line: , dictionary: './lib/instructions.yml')
     @line = line.to_s
     @dictionary = dictionary.to_s
-    validate_line!
-    validate_dictionary!
+    validate!
     @instructions = YAML.load_file(@dictionary)
   end
 
@@ -19,11 +17,15 @@ class InstructionParser
 
   private
 
-  def validate_line!()
-    raise ArgumentError unless Validator.new(obj: @line, rules: { empty?: false }).valid?
+  def validate!
+    raise ArgumentError unless validation_schema.call( { line: @line, dictionary: @dictionary, file_exist: File.exist?(@dictionary) } ).success?
   end
 
-  def validate_dictionary!()
-    raise ArgumentError unless Validator.new(obj: @dictionary).valid_file?
+  def validation_schema
+    Dry::Validation.Schema do
+      required(:line, :str).filled
+      required(:dictionary, :str).filled
+      required(:file_exist, :bool).value(:true?)
+    end
   end
 end
