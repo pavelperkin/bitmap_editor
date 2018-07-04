@@ -18,7 +18,8 @@ class InstructionParser
   private
 
   def validate!
-    raise ArgumentError unless validation_schema.call( { line: @line, dictionary: @dictionary, file_exist: File.exist?(@dictionary) } ).success?
+    validation_results = validation_schema.call( { line: @line, dictionary: @dictionary, file_exist: File.exist?(@dictionary) } )
+    raise ArgumentError.new(validation_results.messages(full: true).values.join("\n")) unless validation_results.success?
   end
 
   def validation_schema
