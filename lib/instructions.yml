@@ -4,3 +4,4 @@ L: PaintPixel
 V: VerticalSegment
 H: HorizontalSegment
 S: ShowBitmap
+F: FillRegion
