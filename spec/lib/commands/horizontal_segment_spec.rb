@@ -49,7 +49,7 @@ RSpec.describe Commands::HorizontalSegment do
       end
     end
 
-    context 'invalide attributes' do
+    context 'invalid attributes' do
       context 'invalid state' do
         let(:state) { nil }
         it 'raises an ArgumentError' do

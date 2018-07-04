@@ -7,3 +7,4 @@ gem 'simplecov', require: false, group: :test
 gem 'guard-rspec', require: false
 gem 'foreman'
 gem 'rake', '< 11.0'
+gem 'dry-validation'

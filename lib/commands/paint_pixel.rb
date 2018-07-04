@@ -1,5 +1,5 @@
 require_relative '../commands'
-require_relative '../validator'
+require 'dry-validation'
 
 class Commands::PaintPixel
   def initialize(state:, args:)
@@ -18,15 +18,25 @@ class Commands::PaintPixel
   private
 
   def validate!
-    raise ArgumentError unless Validator.new(obj: @state, rules: { class: Array, empty?: false }).valid?
     n = @state.size
-    m = @state.first.size
-    raise ArgumentError unless Validator.new(obj: @x, rules: { integer?: true, positive?: true }).valid?
-    raise ArgumentError unless Validator.new(obj: @x-m, rules: { positive?: false }).valid?
-    raise ArgumentError unless Validator.new(obj: @y, rules: { integer?: true, positive?: true }).valid?
-    raise ArgumentError unless Validator.new(obj: @y-n, rules: { positive?: false }).valid?
-    raise ArgumentError unless Validator.new(obj: @colour, rules: { empty?: false }).valid?
-    raise ArgumentError unless Validator.new(obj: @colour.size - 1, rules: { zero?: true }).valid?
-    raise ArgumentError unless Validator.new(obj: @colour, rules: { capitalize: @colour }).valid?
+    m = @state.map(&:size).first.to_i
+    validation_results = validation_schema.call( { state: @state,
+                                                   x: @x,
+                                                   y: @y,
+                                                   colour: @colour,
+                                                   'x-m': @x-m,
+                                                   'y-n': @y-n } )
+    raise ArgumentError.new(validation_results.messages) unless validation_results.success?
+  end
+
+  def validation_schema
+    Dry::Validation.Schema do
+      required(:state, :array).filled
+      required(:x, :int).value(gt?: 0)
+      required(:y, :int).value(gt?: 0)
+      required(:'x-m').value(lteq?: 0)
+      required(:'y-n').value(lteq?: 0)
+      required(:colour, :string).value(format?: /^[A-Z]$/)
+    end
   end
 end

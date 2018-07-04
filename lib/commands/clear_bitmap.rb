@@ -1,5 +1,5 @@
 require_relative '../commands'
-require_relative '../validator'
+require 'dry-validation'
 
 class Commands::ClearBitmap
   attr_reader :state
@@ -10,14 +10,20 @@ class Commands::ClearBitmap
   end
 
   def run()
-    n = @state.size
-    m = @state.first.size
+    n = @state.size.to_i
+    m = @state.map(&:size).first.to_i
     Array.new(n, Array.new(m, 'O'))
   end
 
   private
 
   def validate!
-    raise ArgumentError unless Validator.new(obj: @state, rules: { class: Array }).valid?
+    raise ArgumentError unless validation_schema.call( { state: @state } ).success?
+  end
+
+  def validation_schema
+    Dry::Validation.Schema do
+      required(:state, :array)
+    end
   end
 end

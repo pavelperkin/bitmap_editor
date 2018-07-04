@@ -1,5 +1,5 @@
 require_relative '../commands'
-require_relative '../validator'
+require 'dry-validation'
 
 class Commands::InitBitmap
   attr_reader :state
@@ -16,9 +16,16 @@ class Commands::InitBitmap
   private
 
   def validate!
-    raise ArgumentError unless Validator.new(obj: @m, rules: { integer?: true, positive?: true }).valid?
-    raise ArgumentError unless Validator.new(obj: @n, rules: { integer?: true, positive?: true }).valid?
-    raise ArgumentError unless Validator.new(obj: @m-250, rules: { positive?: false }).valid?
-    raise ArgumentError unless Validator.new(obj: @n-250, rules: { positive?: false }).valid?
+    validation_results = validation_schema.call( {m: @m, n: @n} )
+    raise ArgumentError.new(validation_results.messages) unless validation_results.success?
   end
+
+  def validation_schema
+    Dry::Validation.Schema do
+      required(:m, :int) { gt?(0) & lteq?(250) }
+      required(:n, :int) { gt?(0) & lteq?(250) }
+    end
+  end
+
+
 end
